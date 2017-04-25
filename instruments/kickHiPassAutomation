@@ -1,0 +1,4 @@
+instr kickHiPassAutomation
+  iDur = p3
+  giKickHiPass = p4
+endin

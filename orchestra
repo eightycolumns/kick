@@ -1,0 +1,20 @@
+#define TWO_PI # ($M_PI * 2) #
+
+sr = 176400 // Oversample 44100 * 4
+ksmps = 1
+nchnls = 2
+
+giFtLen pow 2, 16
+giSinFt ftgenonce 0, 0, giFtLen, 10, 1
+
+gaMixBusL init 0
+gaMixBusR init 0
+gaReverbBusL init 0
+gaReverbBusR init 0
+
+giKickHiPass init 0
+
+#include "instruments/kick"
+#include "instruments/kickHiPassAutomation"
+#include "instruments/reverb"
+#include "instruments/mix"

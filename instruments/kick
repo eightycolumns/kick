@@ -1,0 +1,37 @@
+#include "opcodes/DbfsMidiVelo"
+#include "opcodes/CpsMidiNote"
+
+instr kick
+  iDur = p3
+  iMidiVelo = p4
+  iMidiNote = p5
+
+  iDbRange = 0
+  iDbfs DbfsMidiVelo iMidiVelo, iDbRange
+  iGain = -12
+  iDbfs += iGain
+  iAmp ampdbfs iDbfs
+
+  iCps CpsMidiNote iMidiNote
+
+  kAmpEnv transeg 1, iDur,  -2, 0
+  kCpsEnv transeg 4, iDur, -10, 1
+  kModEnv transeg 1, iDur, -10, 0
+
+  aFeedback init 0
+  aOsc tablei phasor(iCps * kCpsEnv) + aFeedback, giSinFt, 1, 0, 1
+  kModIndex = 0.5 / $TWO_PI
+  aFeedback = aOsc * kModIndex * kModEnv
+
+  aKick = aOsc * iAmp * kAmpEnv
+
+  aSendToReverb butterhp aKick, 4000
+
+  gaReverbBusL += aSendToReverb
+  gaReverbBusR += aSendToReverb
+
+  aSendToMix butterhp aKick, giKickHiPass
+
+  gaMixBusL += aSendToMix
+  gaMixBusR += aSendToMix
+endin

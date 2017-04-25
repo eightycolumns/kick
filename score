@@ -1,0 +1,14 @@
+t 0 60
+f 0 1
+s
+
+t 0 132
+
+#include "parts/kick"
+#include "parts/kickHiPassAutomation"
+
+s
+
+t 0 60
+f 0 2
+s
